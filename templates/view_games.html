@@ -1,0 +1,23 @@
+{% extends 'layout.html' %}
+
+{% block css %}
+<link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="list-group">
+    {% for game in games %}
+    <a href="/edit_game/{{game.id}}" class="list-group-item list-group-item-action ">
+        <div class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1">{{ game.date }} between {{ game.start_time }} - {{ game.end_time }}</h5>
+            <small>In {{ (game.date - todays_date).days }} days</small>
+        </div>
+        <p class="mb-1">{{ game.player1 }} - {{ game.player2 }} - {{ game.player3 }} - {{ game.player4 }}</p>
+        <small>{{ game.place }}</small>
+    </a>
+    {% endfor %}
+
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends 'layout.html' %}
+
+{% block css %}
+<link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="add-new-form">
+<form method="POST" action="/add_game">
+    <div class="form-row">
+        <div class="form-group col-md-4">
+            <label>Date</label>
+            <input type=date class="form-control" name="date" placeholder="When?" required>
+        </div>
+        <div class="form-group col-md-4">
+            <label>From</label>
+            <input type=time class="form-control" name="start_time" placeholder="From" required>
+        </div>
+        <div class="form-group col-md-4">
+            <label>To</label>
+            <input type=time class="form-control" name="end_time" placeholder="To" required>
+        </div>
+    </div>
+    <div class="form-group">
+        <label>Where</label>
+        <select class="form-control" name="place" required>
+            <option>UTK</option>
+            <option>Evry Padel Fyrislund</option>
+            <option>Evry Padel Librobäck</option>
+            <option>WAP Uppsala</option>
+            <option>City Padel: Uppsala</option>
+        </select>
+    </div>
+
+
+    <button type="submit" class="btn btn-primary btn-lg">Add</button>
+</form>
+    </div>
+{% endblock %}
