@@ -24,7 +24,7 @@ TABLE_NAME='dynamodb-tablename'
 docker build -t flask/padel-planner .
 ```
 ```bash
-docker run -d -p 8003:8000 flask/padel-planner
+docker run -d -p 8003:8000 --restart unless-stopped flask/padel-planner
 ```
 
 
@@ -33,7 +33,7 @@ docker run -d -p 8003:8000 flask/padel-planner
 docker build -t nginx .
 ```
 ```bash
-docker run -d -p 80:80 nginx
+docker run -d -p 80:80 --restart unless-stopped nginx
 ```
 
 ---
