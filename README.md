@@ -33,8 +33,10 @@ docker run -d -p 8003:8000 --restart unless-stopped flask/padel-planner
 docker build -t nginx .
 ```
 ```bash
-docker run -d -p 80:80 --restart unless-stopped nginx
+docker run -d -p 80:80 --restart unless-stopped --add-host=host.docker.internal:host-gateway nginx
 ```
+
+Flag `--add-host=host.docker.internal:host-gateway` is needed to deploy in Linux, not needed on Mac.
 
 ---
 
