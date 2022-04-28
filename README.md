@@ -21,23 +21,19 @@ TABLE_NAME='dynamodb-tablename'
 
 ## Deploy webpage
 ```bash
-docker build -t flask/padel-planner .
+sudo docker build -t flask/padel-planner .
 ```
 ```bash
-docker run -d -p 8003:8000 --restart unless-stopped flask/padel-planner
+sudo docker run -d -p 8003:8000 --restart unless-stopped flask/padel-planner
 ```
 
 
-## Deploy nginx
-```bash
-docker build -t nginx .
-```
-```bash
-docker run -d -p 80:80 --restart unless-stopped --add-host=host.docker.internal:host-gateway nginx
-```
+## Deploy nginx and certbot
 
-Flag `--add-host=host.docker.internal:host-gateway` is needed to deploy in Linux, not needed on Mac.
+Clone this repository and follow instructions
+https://github.com/wmnnd/nginx-certbot
 
----
+Since I run the nginx-certbot container on the same host as the flask/padel planner container, I need to update the
+nginx config file (data/nginx/app.conf) to redirect https to the container port on the server (serverip:8003).
 
 :tennis: :calendar: :bar_chart:
