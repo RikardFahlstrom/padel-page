@@ -5,3 +5,5 @@ python-decouple==3.6
 pre-commit==2.18.1
 gunicorn==20.1.0
 botocore==1.24.32
+rollbar==0.16.2
+blinker==1.4

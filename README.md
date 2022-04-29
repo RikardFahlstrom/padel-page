@@ -17,6 +17,9 @@ AWS_ACCESS_KEY_ID='your_access_key_id'
 AWS_SECRET_ACCESS_KEY='your_secret_access_key'
 REGION_NAME='aws-region'
 TABLE_NAME='dynamodb-tablename'
+PASSPHRASE_TO_POST='passphrase'
+DEV_ENVIRONMENT='abc'
+ROLLBAR_ACCESS_TOKEN='123abc'
 ```
 
 ## Deploy webpage

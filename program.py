@@ -1,7 +1,17 @@
+import os
 from uuid import uuid4
 
+import rollbar
+import rollbar.contrib.flask
 from decouple import config
-from flask import Flask, redirect, render_template, request, url_for
+from flask import (
+    Flask,
+    got_request_exception,
+    redirect,
+    render_template,
+    request,
+    url_for,
+)
 
 from dynamodb_handler import (
     add_game,
@@ -14,6 +24,26 @@ from utils import GameInfo, get_final_names, get_todays_date
 
 app = Flask(__name__)
 PASSPHRASE = config("PASSPHRASE_TO_POST")
+environment = config("DEV_ENVIRONMENT")
+rollbar_token = config("ROLLBAR_ACCESS_TOKEN")
+
+
+@app.before_first_request
+def init_rollbar():
+    """init rollbar module"""
+    rollbar.init(
+        # access token
+        rollbar_token,
+        # environment name
+        environment,
+        # server root directory, makes tracebacks prettier
+        root=os.path.dirname(os.path.realpath(__file__)),
+        # flask already sets up logging
+        allow_logging_basic_config=False,
+    )
+
+    # send exceptions from `app` to rollbar, using flask's signal system.
+    got_request_exception.connect(rollbar.contrib.flask.report_exception, app)
 
 
 @app.route("/", methods=["GET"])
