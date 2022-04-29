@@ -1,5 +1,6 @@
 from uuid import uuid4
 
+from decouple import config
 from flask import Flask, redirect, render_template, request, url_for
 
 from dynamodb_handler import (
@@ -12,6 +13,7 @@ from dynamodb_handler import (
 from utils import GameInfo, get_final_names, get_todays_date
 
 app = Flask(__name__)
+PASSPHRASE = config("PASSPHRASE_TO_POST")
 
 
 @app.route("/", methods=["GET"])
@@ -34,10 +36,11 @@ def view_games():
 def add_new_game():
     if request.method == "POST":
         form_data = request.form.to_dict()
-        form_data["id"] = str(uuid4())
-        dynamodb_resource = get_dynamodb_resource()
-        add_game(dynamo_resource=dynamodb_resource, game=form_data)
-        return redirect(url_for("view_games"))
+        if form_data.get("passphrase") == PASSPHRASE:
+            form_data["id"] = str(uuid4())
+            dynamodb_resource = get_dynamodb_resource()
+            add_game(dynamo_resource=dynamodb_resource, game=form_data)
+            return redirect(url_for("view_games"))
 
     return render_template("add_game.html")
 
@@ -62,11 +65,12 @@ def update_players():
             game_id=updated_player_info.get("game_id"),
         )
         final_player_names = get_final_names(current_player_info, updated_player_info)
-        update_players_in_db(
-            dynamo_resource=dynamodb_resource,
-            game_id=updated_player_info.get("game_id"),
-            final_names=final_player_names,
-        )
+        if updated_player_info.get("passphrase") == PASSPHRASE:
+            update_players_in_db(
+                dynamo_resource=dynamodb_resource,
+                game_id=updated_player_info.get("game_id"),
+                final_names=final_player_names,
+            )
 
     return redirect(url_for("view_games"))
 
