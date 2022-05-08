@@ -11,15 +11,26 @@ AWS_ACCESS_KEY_ID = config("AWS_ACCESS_KEY_ID")
 AWS_SECRET_ACCESS_KEY = config("AWS_SECRET_ACCESS_KEY")
 REGION_NAME = config("REGION_NAME")
 TABLE_NAME = config("TABLE_NAME")
+environment = config("DEV_ENVIRONMENT")
 
 
-def get_dynamodb_resource():
-    return boto3.resource(
-        "dynamodb",
-        aws_access_key_id=AWS_ACCESS_KEY_ID,
-        aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
-        region_name=REGION_NAME,
-    )
+def get_dynamodb_resource(endpoint: str = "http://host.docker.internal:8001"):
+    if environment == "development":
+        return boto3.resource(
+            "dynamodb",
+            aws_access_key_id="dev_key",
+            aws_secret_access_key="dev_secret",
+            region_name="eu-north-1",
+            endpoint_url=endpoint,
+            verify=False,
+        )
+    else:
+        return boto3.resource(
+            "dynamodb",
+            aws_access_key_id=AWS_ACCESS_KEY_ID,
+            aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
+            region_name=REGION_NAME,
+        )
 
 
 def create_game_table(dynamo_resource):
@@ -88,7 +99,7 @@ def update_players_in_db(dynamo_resource, game_id, final_names):
 
 
 if __name__ == "__main__":
-    dynamodb_resource = get_dynamodb_resource()
+    dynamodb_resource = get_dynamodb_resource(endpoint="http://localhost:8001")
     existing_tables = dynamodb_resource.meta.client.list_tables()["TableNames"]
     print(f"Existing tables: {existing_tables}")
 
@@ -96,3 +107,19 @@ if __name__ == "__main__":
         game_table = create_game_table(dynamo_resource=dynamodb_resource)
     upcoming_games = query_upcoming_games(dynamo_resource=dynamodb_resource)
     print(f"Upcoming games: {upcoming_games}")
+
+    if not upcoming_games:
+        add_game(
+            dynamodb_resource,
+            {
+                "id": "12345678123456781234567812345678",
+                "date": "2023-04-04",
+                "start_time": "15:00",
+                "end_time": "17:00",
+                "place": "UTK",
+                "player1": "Donatello",
+                "player2": "Leonardo",
+                "player3": "Michelangelo",
+                "player4": "Raphael",
+            },
+        )

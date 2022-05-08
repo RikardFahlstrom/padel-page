@@ -17,9 +17,12 @@ AWS_ACCESS_KEY_ID='your_access_key_id'
 AWS_SECRET_ACCESS_KEY='your_secret_access_key'
 REGION_NAME='aws-region'
 TABLE_NAME='dynamodb-tablename'
+PASSPHRASE_TO_POST='passphrase'
+DEV_ENVIRONMENT='development' or 'production'
+ROLLBAR_ACCESS_TOKEN='123abc'
 ```
 
-## Deploy webpage
+## <a name="title1"></a> Deploy webpage
 ```bash
 sudo docker build -t flask/padel-planner .
 ```
@@ -33,7 +36,23 @@ sudo docker run -d -p 8003:8000 --restart unless-stopped flask/padel-planner
 Clone this repository and follow instructions
 https://github.com/wmnnd/nginx-certbot
 
-Since I run the nginx-certbot container on the same host as the flask/padel planner container, I need to update the
-nginx config file (data/nginx/app.conf) to redirect https to the container port on the server (serverip:8003).
+Since I run the nginx-certbot container on the same host as the `flask/padel planner` container, I need to update the
+nginx config file `data/nginx/app.conf` to redirect https to the container port on the server `<server-ip>:8003`.
+
+## Setup development environment
+
+Create a local in-memory dynamodb available on port `localhost:8001` by running
+```bash
+docker run -d -p 8001:8000 --rm --name my-dev-dynamodb amazon/dynamodb-local
+```
+
+Create a virtualenv and install requirements.txt
+
+Run below command from top-level directory to create the dynamodb table and to add a game
+```python
+python dynamodb_handler.py
+```
+
+Do the steps under [Do deploy](#title1) to deploy the webpage and open [0.0.0.0:8003](http://0.0.0.0:8003/) in your browser!
 
 :tennis: :calendar: :bar_chart:
