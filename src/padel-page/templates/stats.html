@@ -1,0 +1,22 @@
+{% extends 'layout.html' %}
+
+{% block css %}
+<link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet">
+{% endblock %}
+
+
+{% block app_content %}
+<h3>Select game to report statistics for</h3>
+<div class="btn-group">
+    <button class="btn btn-secondary btn-lg dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Previous games
+    </button>
+    <div class="dropdown-menu">
+      {% for previous_game in previous_games %}
+        <a class="dropdown-item" href="/add_stats/{{previous_game.id}}">{{previous_game.date}} {{previous_game.start_time.strftime('%H:%M')}}-{{previous_game.end_time.strftime('%H:%M')}} @ {{previous_game.arena.name}}</a>
+
+    {% endfor %}
+    </div>
+  </div>
+
+{% endblock %}

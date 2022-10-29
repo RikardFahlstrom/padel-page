@@ -13,13 +13,10 @@ Clone the repository and add the following `.env` file to the root directory:
 
 
 ```bash
-AWS_ACCESS_KEY_ID='your_access_key_id'
-AWS_SECRET_ACCESS_KEY='your_secret_access_key'
-REGION_NAME='aws-region'
-TABLE_NAME='dynamodb-tablename'
-PASSPHRASE_TO_POST='passphrase'
 DEV_ENVIRONMENT='development' or 'production'
 ROLLBAR_ACCESS_TOKEN='123abc'
+SECRET_KEY='123cba'
+SQLALCHEMY_DATABASE_URI='sqlite:///project.db'
 ```
 
 ## <a name="title1"></a> Deploy webpage
@@ -56,3 +53,51 @@ python dynamodb_handler.py
 Do the steps under [Do deploy](#title1) to deploy the webpage and open [0.0.0.0:8003](http://0.0.0.0:8003/) in your browser!
 
 :tennis: :calendar: :bar_chart:
+
+```bash
+sqlite3 project.db "insert into arenas (name) values ('UTK'), ('Evry Padel Fyrislund'), ('Evry Padel Librobäck'), ('WAP Uppsala'), ('Uppsala Padel World'), ('City Padel: Uppsala'), ('USIF Arena'), ('-- select arena --');"
+sqlite3 project.db "insert into leagues (name) values ('average-joes'), ('justice-league'), ('too-poor-to-golf'), ('best-of-the-rest'), ('call-of-duty'), ('-- select league --');"
+sqlite3 project.db "insert into users (username) values ('zbackup-leonardo'), ('zbackup-raphael'), ('zbackup-donatello'), ('zbackup-michelangelo');"
+ sqlite3 project.db """
+    insert into games
+        (date, start_time, end_time, arena_id, league_id)
+    values
+        ('2022-05-01', '18:00:00', '20:00:00', '1', '2'),
+        ('2023-06-10', '18:30:00', '20:30:00', '4', '1'),
+        ('2022-06-11', '19:00:00', '22:00:00', '2', '2'),
+        ('2022-11-01', '18:00:00', '20:00:00', '7', '4'),
+        ('2022-11-22', '20:00:00', '22:15:00', '7', '4'),
+        ('2023-01-04', '18:00:00', '20:00:00', '2', '5'),
+        ('2023-01-10', '18:00:00', '20:00:00', '2', '5')
+    ;"""
+
+sqlite3 project.db """
+    insert into players
+        (game_id, player_id)
+    values
+        (1, 1),
+        (1, 2),
+        (1, 3),
+        (1, 4),
+        (2, 1),
+        (2, 2),
+        (2, 3),
+        (2, 4),
+        (3, 1),
+        (3, 2),
+        (3, 3),
+        (3, 4),
+        (4, 1),
+        (4, 2),
+        (4, 3),
+        (4, 4),
+        (5, 1),
+        (5, 2),
+        (5, 3),
+        (5, 4),
+        (7, 1),
+        (7, 2),
+        (7, 3),
+        (7, 4)
+    ;"""
+```

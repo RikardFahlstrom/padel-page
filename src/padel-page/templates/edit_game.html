@@ -1,0 +1,68 @@
+{% extends 'layout.html' %}
+{% import 'bootstrap/wtf.html' as wtf %}
+{% block css %}
+<link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet">
+{% endblock %}
+
+
+{% block app_content %}
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col"></th>
+            <th scope="col">Current info</th>
+
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">ID</th>
+            <td>{{ current_info.id }}</td>
+
+          </tr>
+          <tr>
+            <th scope="row">Date</th>
+            <td>{{ current_info.date }}</td>
+
+          </tr>
+          <tr>
+            <th scope="row">Start time</th>
+            <td>{{ current_info.start_time.strftime('%H:%M') }}</td>
+
+          </tr>
+          <tr>
+            <th scope="row">End time</th>
+            <td>{{ current_info.end_time.strftime('%H:%M') }}</td>
+
+          </tr>
+          <tr>
+            <th scope="row">Arena</th>
+            <td>{{ current_info.arena.name }}</td>
+
+          </tr>
+          <tr>
+            <th scope="row">League</th>
+            <td>{{ current_info.league.name }}</td>
+
+          </tr>
+          <tr>
+            <th scope="row">Players</th>
+            <td> {% for player in current_info.players %}
+                {{ player.user.username }}
+                {% endfor %}</td>
+
+          </tr>
+
+        </tbody>
+      </table>
+
+
+
+<h2>Change info</h2>
+<div class="row">
+    <div class="col-md-4">
+        {{ wtf.quick_form(form) }}
+    </div>
+</div>
+
+{% endblock %}
