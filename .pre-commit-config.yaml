@@ -15,6 +15,6 @@ repos:
       - id: isort
         args: ["--profile", "black", "--filter-files"]
 -   repo: https://github.com/motet-a/jinjalint
-    rev: 'master'  # select a tag / sha to point at
+    rev: '01e0a4d8f1ee775aee00eb9d715eff2b4cc49e4d'  # select a tag / sha to point at
     hooks:
     -   id: jinjalint
