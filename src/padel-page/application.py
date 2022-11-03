@@ -1,8 +1,5 @@
 import datetime
 import os
-from ast import alias
-from crypt import methods
-from uuid import uuid4
 
 import rollbar
 import rollbar.contrib.flask
@@ -14,7 +11,6 @@ from flask import (
     redirect,
     render_template,
     request,
-    session,
     url_for,
 )
 from flask_bootstrap import Bootstrap
@@ -25,18 +21,21 @@ from flask_login import (
     login_user,
     logout_user,
 )
-from flask_sqlalchemy import SQLAlchemy
 from forms import GameForm, LoginForm, RegistrationForm, StatForm
+from models import Arena, Game, League, Player, Result, User, db
 from sqlalchemy import func
-from utils import GameInfo, get_final_names, get_todays_date
+from utils import get_todays_date
 from werkzeug.urls import url_parse
+
+DB_PATH = os.path.join(os.path.dirname(__file__), "./db/project.db")
+
 
 app = Flask(__name__)
 app.secret_key = config("SECRET_KEY")
-app.config["SQLALCHEMY_DATABASE_URI"] = config("SQLALCHEMY_DATABASE_URI")
-app.config["SQLALCHEMY_COMMIT_ON_TEARDOWN"] = True
 
-from models import Arena, Game, League, Player, Result, User, db
+app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{DB_PATH}"
+app.config["SQLALCHEMY_ECHO"] = config("SQLALCHEMY_ECHO")
+
 
 db.init_app(app)
 with app.app_context():
