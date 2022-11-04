@@ -6,7 +6,7 @@ repos:
     -   id: end-of-file-fixer
     -   id: trailing-whitespace
 -   repo: https://github.com/psf/black
-    rev: 21.12b0
+    rev: 22.3.0
     hooks:
     -   id: black
 -   repo: https://github.com/pycqa/isort
@@ -14,3 +14,7 @@ repos:
     hooks:
       - id: isort
         args: ["--profile", "black", "--filter-files"]
+-   repo: https://github.com/motet-a/jinjalint
+    rev: '01e0a4d8f1ee775aee00eb9d715eff2b4cc49e4d'  # select a tag / sha to point at
+    hooks:
+    -   id: jinjalint

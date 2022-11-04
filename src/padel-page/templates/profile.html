@@ -1,0 +1,34 @@
+{% extends 'layout.html' %}
+
+{% block css %}
+<link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet">
+{% endblock %}
+
+
+{% block app_content %}
+<h1>Profile page for {{ user.username }}</h1>
+<hr>
+<b>Upcoming games</b>
+
+ {% for upcoming_game in upcoming_games %}
+
+
+<p>
+  {{ upcoming_game.game.date }} between {{ upcoming_game.game.start_time.strftime('%H:%M') }} - {{
+  upcoming_game.game.end_time.strftime('%H:%M') }}, with
+  {% for player in upcoming_game.game.players %}
+   <a class="text-secondary" href="/profile/{{ player.user.username}}">{{ player.user.username }}</a>
+
+  {% endfor %}
+
+    <br>
+  {% if upcoming_game.game.league.name != '--select league--' %}
+  League {{ upcoming_game.game.league.name }}
+  {% else %}
+  No league
+  {% endif %}
+  {% endfor %}
+</p>
+
+  <hr>
+  {% endblock %}

@@ -4,12 +4,12 @@
 <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet">
 {% endblock %}
 
-{% block content %}
+{% block app_content %}
 <div class="list-group">
     {% for game in games %}
     <a href="/edit_game/{{game.id}}" class="list-group-item list-group-item-action ">
         <div class="d-flex w-100 justify-content-between">
-            <h5 class="mb-1">{{ game.date }} between {{ game.start_time }} - {{ game.end_time }}</h5>
+            <h5 class="mb-1">{{ game.date }} between {{ game.start_time.strftime('%H:%M') }} - {{ game.end_time.strftime('%H:%M') }}</h5>
             <small>
                 {% if (game.date - todays_date).days == 0 %}
                     Today!
@@ -20,8 +20,15 @@
                 {% endif %}
             </small>
         </div>
-        <p class="mb-1">{{ game.player1 }} - {{ game.player2 }} - {{ game.player3 }} - {{ game.player4 }}</p>
-        <small>{{ game.place }}</small>
+
+        {% for player in game.players %}
+        <p class="mb-1">{{ player.user.username }}   </p>
+
+        {% endfor %}
+
+
+        <small>League: {{ game.league.name }}</small><br>
+        <small>{{ game.arena.name }}</small>
     </a>
     {% endfor %}
 
