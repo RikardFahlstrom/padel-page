@@ -10,7 +10,6 @@ from wtforms import (
     SelectMultipleField,
     StringField,
     SubmitField,
-    TextAreaField,
     TimeField,
 )
 from wtforms.validators import DataRequired, Email, EqualTo, Length, ValidationError
@@ -64,7 +63,7 @@ class GameForm(FlaskForm):
     submit = SubmitField("Add")
 
     def validate_players(self, players):
-        if not len(players.data) == 4:
+        if len(players.data) != 4:
             raise ValidationError("Please select 4 players")
 
 
@@ -75,9 +74,9 @@ class StatForm(FlaskForm):
     submit = SubmitField("Add statistics!")
 
     def validate_winners(self, winners):
-        if not len(winners.data) == 2:
+        if len(winners.data) != 2:
             raise ValidationError("It should be two winners!")
 
     def validate_losers(self, losers):
-        if not len(losers.data) == 2:
+        if len(losers.data) != 2:
             raise ValidationError("It should be two losers")
