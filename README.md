@@ -28,7 +28,7 @@ sudo docker build -t flask/padel-planner .
 ```bash
 sudo docker run -d -p 8003:8000 --restart unless-stopped --mount type=bind,source="$(pwd)/db",target="/app/db" --name padel-planner-prod flask/padel-planner
 ```
-
+Make sure to give the `/db` folder and its content read-write access by running `chmod -R 777 db/`.
 
 ## Deploy nginx and certbot
 
